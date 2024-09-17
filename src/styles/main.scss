@@ -1,0 +1,120 @@
+// header start
+
+.header {
+  text-align: center;
+  padding: 0 16px;
+  &-head {
+    padding: 10px 0 17px 0;
+    &__title {
+      font-family: 'SFProText', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 22px;
+      letter-spacing: 0.4000000059604645px;
+    }
+    &__info {
+      font-family: 'SFProText', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 22px;
+      letter-spacing: -0.40799999237060547px;
+      color: #091622;
+      opacity: 0.32;
+    }
+  }
+  &-user__box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    &-text {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 19.36px;
+      text-align: left;
+    }
+    .user-box {
+      padding: 6px;
+      border-radius: 12px;
+      background: #f5e850;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .user-img {
+      width: 32px;
+      height: 44px;
+      border-radius: 16px;
+    }
+  }
+}
+
+// header end
+
+// intro swiper
+.intro {
+  margin-top: 80px;
+  .swiper {
+    overflow: visible;
+    .swiper-slide {
+      text-align: center;
+
+      &.swiper-slide-active {
+        transform: scale(1.1);
+      }
+    }
+    .product-card {
+      margin: 0 auto 42px auto;
+      background: #fff;
+      border-radius: 32px;
+      box-shadow: 0px 32px 56px -16px #09162229;
+      width: 156px;
+      height: 156px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      position: relative;
+      img {
+        position: absolute;
+      }
+    }
+  }
+}
+
+// products
+.products {
+  background: #fff;
+  border-radius: 24px 24px 0px 0px;
+  margin-top: 53px;
+  padding: 33px 32px;
+  height: 100%;
+  &-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 23px;
+  }
+  &-title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: -0.40799999237060547px;
+  }
+  &-count {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.94px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    .card {
+      border: 1px solid #e6e9ed;
+      padding: 12px;
+      border-radius: 32px;
+    }
+  }
+}

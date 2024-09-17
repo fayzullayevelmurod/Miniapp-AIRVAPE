@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 html {
   box-sizing: border-box;
 }
@@ -8,8 +10,29 @@ html {
   margin: 0;
   padding: 0;
 }
+
+span,
+a {
+  display: inline-block;
+}
+
 body {
-  font-family: sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
   background: #fff152;
+  color: #091622;
+}
+.wrapper {
+  overflow: hidden;
+}
+.primary-btn {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  padding: 16px 50px;
+  border: none;
+  border-radius: 64px;
+  box-shadow: 0px 24px 32px 0px #017aff1f;
+  background: #017aff;
+  color: #fff;
 }
