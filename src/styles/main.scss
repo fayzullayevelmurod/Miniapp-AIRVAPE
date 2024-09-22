@@ -52,7 +52,21 @@
 // header end
 
 // intro swiper
+.win-intro {
+  position: relative;
 
+  &::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 202px;
+    z-index: 10;
+    background: #009127;
+    top: 34%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
 .intro {
   margin-top: 80px;
   .status-text {
