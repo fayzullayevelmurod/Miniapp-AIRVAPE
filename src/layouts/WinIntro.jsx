@@ -4,7 +4,7 @@ import { Button } from '../components';
 import 'swiper/css';
 import assets from '../assets';
 
-export const Intro = ({ onProductTypeChange }) => {
+export const WinIntro = ({ onProductTypeChange }) => {
   // Slider harakatiga qarab mahsulot turini yangilash
   const handleSlideChange = (swiper) => {
     const slideIndex = swiper.activeIndex;
@@ -14,32 +14,31 @@ export const Intro = ({ onProductTypeChange }) => {
   };
 
   return (
-    <div className='intro'>
+    <div className='intro win-intro'>
       <Swiper
-        spaceBetween={24}
+        spaceBetween={16}
         slidesPerView={2}
         centeredSlides={true}
         onSlideChange={handleSlideChange}
       >
         <SwiperSlide>
           <div className='product-card'>
-            <img src={assets.slideImg1} alt='Elfbar Slide' />
+            <img src={assets.bagImg} alt='Elfbar Slide' />
+            <span className='discount-text'>50%</span>
           </div>
-          <Button>Открыть</Button>
         </SwiperSlide>
         <SwiperSlide>
           <div className='product-card'>
-            <img src={assets.slideImg2} alt='Elflio Slide' />
+            <img src={assets.huskyProduct1} alt='Elflio Slide' />
           </div>
-          <Button>Открыть</Button>
         </SwiperSlide>
         <SwiperSlide>
           <div className='product-card'>
-            <img src={assets.slideImg3} alt='Discount Slide' />
+            <img src={assets.notFound} alt='Discount Slide' />
           </div>
-          <Button>Открыть</Button>
         </SwiperSlide>
       </Swiper>
+      <span className='status-text'>Поздравляем, вы выиграли!</span>
     </div>
   );
 };

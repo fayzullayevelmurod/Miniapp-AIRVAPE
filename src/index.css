@@ -24,6 +24,8 @@ body {
 }
 .wrapper {
   overflow: hidden;
+  max-width: 768px;
+  margin: 0 auto;
 }
 .primary-btn {
   font-size: 18px;

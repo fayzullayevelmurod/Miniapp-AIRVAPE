@@ -1,2 +1,3 @@
 export { Intro } from './Intro';
-export { Products } from './Products';
+export { WinIntro } from './WinIntro';
+export { LoseIntro } from './LoseIntro';
