@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import assets from '../assets';
+import { getUserData } from '../api/services/authService';
+import { getHistoryData } from '../api/services/historyService';
 
 export const Header = () => {
+  const [username, setUsername] = useState('');
+  const [balance, setBalance] = useState(0);
+  const [historyCount, setHistoryCount] = useState(0);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = await getUserData(0);
+        setUsername(userData.username);
+        setBalance(userData.balance);
+
+        const historyData = await getHistoryData();
+        setHistoryCount(historyData.length);
+      } catch (error) {
+        console.error("Ma'lumotlarni yuklashda xatolik:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <header className='header'>
       <div className='header-head'>
@@ -9,7 +32,8 @@ export const Header = () => {
         <span className='header-head__info'>мини-приложение</span>
       </div>
       <div className='header-user__box'>
-        <span className='header-user__box-text'>SPIN #2</span>
+        <span className='header-user__box-text'>SPIN #{historyCount}</span>{' '}
+        {/* History soni */}
         <div className='user-box'>
           <img
             className='user-img'
@@ -18,9 +42,11 @@ export const Header = () => {
             width={32}
             height={44}
           />
-          <span className='user-name header-user__box-text'>@username</span>
+          <span className='user-name header-user__box-text'>@{username}</span>{' '}
+          {/* Username */}
         </div>
-        <span className='header-user__box-text'>$32</span>
+        <span className='header-user__box-text'>${balance}</span>{' '}
+        {/* Balance */}
       </div>
     </header>
   );
