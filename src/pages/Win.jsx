@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Products from '../layouts/Products';
-import { WinIntro } from '../layouts';
+import { Products, WinIntro } from '../layouts';
 
 const Win = () => {
   const [productType, setProductType] = useState('elfbar');

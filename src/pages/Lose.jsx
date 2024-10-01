@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Products from '../layouts/Products';
-import { LoseIntro } from '../layouts';
+import { LoseIntro, Products } from '../layouts';
 
 const Lose = () => {
   const [productType, setProductType] = useState('elfbar');

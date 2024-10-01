@@ -44,7 +44,7 @@ export const getCaseList = async () => {
 export const getCaseContent = async (caseId) => {
   try {
     // API'ga GET so'rov yuborib, case_id bo'yicha kontent ma'lumotlarini olamiz
-    const response = await fetch(`${API_URL}/case?case_id=${caseId}`, {
+    const response = await fetch(`${API_URL}/case?id=${caseId}`, {
       method: 'GET',
     });
 
@@ -59,5 +59,49 @@ export const getCaseContent = async (caseId) => {
   } catch (error) {
     console.error('API xatoligi:', error); // Xatolikni konsolda chiqaramiz
     throw error; // Xatolikni tashlaymiz
+  }
+};
+
+// Foydalanuvchi ma'lumotlarini yangilash funksiyasi
+export const updateUserInfo = async (chatId, caseInfoForUser) => {
+  try {
+    const response = await fetch(`${API_URL}/user?chat_id=${chatId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        case_info: caseInfoForUser,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Foydalanuvchi ma\'lumotlarini yangilashda xatolik yuz berdi.');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('API xatoligi:', error);
+    throw error;
+  }
+};
+
+// Case'ni birinchi marta ochish funksiyasi
+export const firstOpenCase = async (caseId) => {
+  try {
+    const response = await fetch(`${API_URL}/first_open?id=${caseId}`, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error("Case'ni birinchi marta ochishda xatolik.");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Case'ni ochishda API xatoligi:", error);
+    throw error;
   }
 };
