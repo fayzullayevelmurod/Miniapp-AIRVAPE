@@ -55,7 +55,10 @@ export const getCaseContent = async (caseId) => {
 
     // So'rovdan qaytgan JSON ma'lumotlarni o'qib olamiz
     const data = await response.json();
-    return data.content; // Kontentni qaytaramiz
+    console.log('case services', data);
+
+    // Butun data obyektini qaytaramiz, chunki boshqa ma'lumotlar ham kerak bo'lishi mumkin
+    return data;
   } catch (error) {
     console.error('API xatoligi:', error); // Xatolikni konsolda chiqaramiz
     throw error; // Xatolikni tashlaymiz

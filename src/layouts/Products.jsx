@@ -16,6 +16,7 @@ export const Products = memo(({ productType, caseId = 1 }) => {
             Object.entries(data.content).map(([key, value]) => ({
               key,
               value,
+              photo: data.photo, // Rasmlarni ham qo'shamiz
             }))
           );
         } else {
@@ -29,26 +30,24 @@ export const Products = memo(({ productType, caseId = 1 }) => {
     };
 
     fetchContent(); // API chaqiruvini boshlash
-  }, [caseId]);
+  }, []);
 
   if (isLoading) {
     return <div>Kontent yuklanmoqda...</div>; // Yuklanish paytidagi holat
   }
-  console.log(content, 'content');
+
+  console.log(content, 'content'); // Ma'lumotlarni konsolda ko'ramiz
 
   return (
     <div className='products'>
       <div className='products-top'>
         <h2 className='products-title'>Что внутри?</h2>
         <span className='product-count'>{content.length} предметов</span>
-        {/* API'dan kelgan kontent sonini ko'rsatamiz */}
       </div>
       <div className='cards'>
         {content.map((item, idx) => (
           <div className={`card`} key={idx}>
-            <span>
-              {item.key}: {item.value}
-            </span>
+            <img src={item.photo} alt={item.key} />
           </div>
         ))}
       </div>
