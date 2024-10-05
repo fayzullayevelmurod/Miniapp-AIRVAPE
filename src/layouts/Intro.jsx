@@ -15,6 +15,7 @@ export const Intro = ({ onProductTypeChange, chatId }) => {
   const [isWinner, setIsWinner] = useState(null); // Foydalanuvchi yutgan/yutmaganligini tekshirish uchun state
   const [selectedCaseId, setSelectedCaseId] = useState(null); // Bosilgan case ID'sini saqlash
   const [isCaseOpened, setIsCaseOpened] = useState(false); // Case ochilganmi yoki yo'qmi kuzatib borish uchun
+  const [isLoading, setIsLoading] = useState(true); // Yuklanish holatini boshqarish
 
   useEffect(() => {
     // Component yuklanganda case ro'yxatini olish
@@ -24,6 +25,8 @@ export const Intro = ({ onProductTypeChange, chatId }) => {
         setCases(data); // Case'larni state ga o'rnatish
       } catch (error) {
         console.error("Case ro'yxatini olishda xatolik:", error);
+      } finally {
+        setIsLoading(false); // Yuklash tugadi
       }
     };
 
@@ -65,6 +68,10 @@ export const Intro = ({ onProductTypeChange, chatId }) => {
     }
   };
 
+  if (isLoading) {
+    return <div>Kontent yuklanmoqda...</div>; // Yuklanish xabarini chiqaramiz
+  }
+
   return (
     <div className='intro'>
       <Swiper
@@ -73,20 +80,27 @@ export const Intro = ({ onProductTypeChange, chatId }) => {
         centeredSlides={true}
         onSlideChange={handleSlideChange}
       >
-        {cases.map((caseItem, index) => (
-          <SwiperSlide key={index}>
-            <div className='product-card'>
-              <img src={caseItem.content.sale} alt={caseItem.name} />
-            </div>
-            {/* Agar case ochilmagan bo'lsa, button ko'rsatamiz */}
-            {!isCaseOpened && (
-              <Button onClick={() => handleOpenCase(caseItem.id)}>
-                Открыть
-              </Button>
-            )}
-          </SwiperSlide>
-        ))}
+        {/* Case'lar yuklanganidan keyin kontentni ko'rsatamiz */}
+        {cases.length > 0 &&
+          cases[0].content &&
+          Object.keys(cases[0].content).map((key, index) => (
+            <SwiperSlide key={index}>
+              <div className='product-card'>
+                <img
+                  src={cases[0].content[key] || assets.slideImg1}
+                  alt={key}
+                />
+              </div>
+              {/* Agar case ochilmagan bo'lsa, button ko'rsatamiz */}
+              {!isCaseOpened && (
+                <Button onClick={() => handleOpenCase(cases[0].id)}>
+                  Открыть
+                </Button>
+              )}
+            </SwiperSlide>
+          ))}
       </Swiper>
+
       {/* Tanlangan case bo'yicha yutgan yoki yutmaganligini ko'rsatish */}
       {selectedCaseId !== null && (
         <div className='result-message'>

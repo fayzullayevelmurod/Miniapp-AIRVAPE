@@ -1,42 +1,50 @@
 import React, { memo, useEffect, useState } from 'react';
 import { getCaseContent } from '../api/services/caseService';
+import assets from '../assets';
+
+const defaultImages = {
+  type1: assets.productImg1, // 1-tur mahsulot uchun default rasm
+  type2: assets.productImg2, // 2-tur mahsulot uchun default rasm
+  type3: assets.productImg3, // 3-tur mahsulot uchun default rasm
+  default: assets.productImg1, // Umumiy defolt rasm (agar boshqa turga to'g'ri kelmasa)
+};
 
 export const Products = memo(({ productType, caseId = 1 }) => {
-  const [content, setContent] = useState([]); // Case kontenti uchun state
-  const [isLoading, setIsLoading] = useState(true); // Kontent yuklanayotganini kuzatish uchun
+  const [content, setContent] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const data = await getCaseContent(caseId); // Case kontentini olish
+        const data = await getCaseContent(caseId);
 
-        // Agar content obyekt bo'lsa, uni massivga aylantiramiz
         if (data && data.content && typeof data.content === 'object') {
           setContent(
-            Object.entries(data.content).map(([key, value]) => ({
+            Object.entries(data.content).map(([key, value], idx) => ({
               key,
               value,
-              photo: data.photo, // Rasmlarni ham qo'shamiz
+              photo:
+                value.photo ||
+                defaultImages[`type${idx + 1}`] ||
+                defaultImages.default,
             }))
           );
         } else {
-          setContent([]); // Agar ma'lumot bo'lmasa bo'sh massivni o'rnatamiz
+          setContent([]);
         }
       } catch (error) {
         console.error('Kontentni olishda xatolik:', error);
       } finally {
-        setIsLoading(false); // Yuklash tugadi
+        setIsLoading(false);
       }
     };
 
-    fetchContent(); // API chaqiruvini boshlash
-  }, []);
+    fetchContent();
+  }, [caseId]);
 
   if (isLoading) {
-    return <div>Kontent yuklanmoqda...</div>; // Yuklanish paytidagi holat
+    return <div>Загрузка контента...</div>;
   }
-
-  console.log(content, 'content'); // Ma'lumotlarni konsolda ko'ramiz
 
   return (
     <div className='products'>
@@ -47,6 +55,7 @@ export const Products = memo(({ productType, caseId = 1 }) => {
       <div className='cards'>
         {content.map((item, idx) => (
           <div className={`card`} key={idx}>
+            {/* Har bir mahsulot uchun to'g'ri rasm ko'rsatiladi */}
             <img src={item.photo} alt={item.key} />
           </div>
         ))}

@@ -6,7 +6,7 @@ import { getHistoryData } from '../api/services/historyService';
 export const Header = () => {
   const [username, setUsername] = useState('');
   const [balance, setBalance] = useState(0);
-  const [historyCount, setHistoryCount] = useState(0);
+  const [historyCount, setHistoryCount] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
