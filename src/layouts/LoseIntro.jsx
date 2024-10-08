@@ -5,7 +5,6 @@ import 'swiper/css';
 import assets from '../assets';
 
 export const LoseIntro = ({ onProductTypeChange }) => {
-  // Slider harakatiga qarab mahsulot turini yangilash
   const handleSlideChange = (swiper) => {
     const slideIndex = swiper.activeIndex;
     if (slideIndex === 0) onProductTypeChange('elfbar');

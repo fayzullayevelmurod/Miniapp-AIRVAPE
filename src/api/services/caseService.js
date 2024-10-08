@@ -55,8 +55,6 @@ export const getCaseContent = async (caseId) => {
 
     // So'rovdan qaytgan JSON ma'lumotlarni o'qib olamiz
     const data = await response.json();
-    console.log('case services', data);
-
     // Butun data obyektini qaytaramiz, chunki boshqa ma'lumotlar ham kerak bo'lishi mumkin
     return data;
   } catch (error) {
@@ -65,17 +63,12 @@ export const getCaseContent = async (caseId) => {
   }
 };
 
-// Foydalanuvchi ma'lumotlarini yangilash funksiyasi
-export const updateUserInfo = async (chatId, caseInfoForUser) => {
+// Foydalanuvchi ma'lumotlarini yangilash uchun POST so'rov
+export const updateUserInfo = async (chatId, updatedData) => {
   try {
     const response = await fetch(`${API_URL}/user?chat_id=${chatId}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        case_info: caseInfoForUser,
-      }),
+      body: JSON.stringify(updatedData),
     });
 
     if (!response.ok) {
@@ -83,9 +76,11 @@ export const updateUserInfo = async (chatId, caseInfoForUser) => {
     }
 
     const data = await response.json();
+    console.log('yangilangan malumot', data);
+
     return data;
   } catch (error) {
-    console.error('API xatoligi:', error);
+    console.error('API xatoligi:', error); // Xatolikni konsolda chiqarish
     throw error;
   }
 };
@@ -105,6 +100,54 @@ export const firstOpenCase = async (caseId) => {
     return data;
   } catch (error) {
     console.error("Case'ni ochishda API xatoligi:", error);
+    throw error;
+  }
+};
+
+
+export const changeUserValue = async (userId, updatedData) => {
+  try {
+    const response = await fetch(`${API_URL}/user?id=${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Foydalanuvchi ma'lumotlarni yangilashda xatolik.");
+    }
+
+    const data = await response.json();
+    console.log("changeUserValue", data);
+
+    return data; // Yangilangan ma'lumotlarni qaytaradi
+  } catch (error) {
+    console.error("Qiymatni o'zgartirishda xatolik:", error);
+    throw error;
+  }
+};
+
+// create user
+export const createUser = async (userData) => {
+  try {
+    const response = await fetch(`${API_URL}/user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // JSON formatda ma'lumot yuboriladi
+      },
+      body: JSON.stringify(userData), // Ma'lumotlarni JSON formatga o'giramiz va yuboramiz
+    });
+
+    if (!response.ok) {
+      throw new Error("Foydalanuvchini yaratishda xatolik yuz berdi.");
+    }
+
+    const data = await response.json();
+    return data; // Yuborilgan ma'lumotlar qaytariladi yoki serverdan kelgan javob
+  } catch (error) {
+    console.error("Foydalanuvchi yaratishda API xatoligi:", error);
     throw error;
   }
 };

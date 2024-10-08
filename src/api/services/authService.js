@@ -8,6 +8,7 @@ export const getUserData = async (chatId) => {
       method: 'GET',
     });
 
+
     // Agar so'rov muvaffaqiyatli bo'lmasa, xato xabarini chiqaramiz
     if (!response.ok) {
       throw new Error('Foydalanuvchi ma\'lumotlarini olishda xatolik yuz berdi.');

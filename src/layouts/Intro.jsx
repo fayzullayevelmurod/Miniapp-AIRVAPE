@@ -2,27 +2,43 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Button } from '../components';
 import 'swiper/css';
-import assets from '../assets';
 import {
   firstOpenCase,
+  openCase,
   updateUserInfo,
   getCaseList,
 } from '../api/services/caseService';
+import { getUserData } from '../api/services/authService';
+import assets from '../assets';
 
-export const Intro = ({ onProductTypeChange, chatId }) => {
+export const Intro = ({ onProductTypeChange }) => {
   const [cases, setCases] = useState([]); // Case'lar ro'yxati uchun state
-  const [caseList, setCaseList] = useState([]);
   const [isWinner, setIsWinner] = useState(null); // Foydalanuvchi yutgan/yutmaganligini tekshirish uchun state
   const [selectedCaseId, setSelectedCaseId] = useState(null); // Bosilgan case ID'sini saqlash
   const [isCaseOpened, setIsCaseOpened] = useState(false); // Case ochilganmi yoki yo'qmi kuzatib borish uchun
   const [isLoading, setIsLoading] = useState(true); // Yuklanish holatini boshqarish
+  const [chatId, setChatId] = useState(null); // Foydalanuvchi chatId ni olish uchun state
+  const [userData, setUserData] = useState(null); // Foydalanuvchi ma'lumotlari
 
   useEffect(() => {
-    // Component yuklanganda case ro'yxatini olish
+    // Foydalanuvchi ma'lumotlarini olish
+    const fetchUserData = async () => {
+      try {
+        const data = await getUserData(0); // Foydalanuvchi ma'lumotlarini olish
+        setUserData(data); // Ma'lumotlarni statega o'rnatish
+        setChatId(data.chat_id); // chatId ni state ga o'rnatamiz
+      } catch (error) {
+        console.error("Foydalanuvchi ma'lumotlarini olishda xatolik:", error);
+      }
+    };
+
+    fetchUserData();
+
+    // Case'lar ro'yxatini olish
     const fetchCases = async () => {
       try {
-        const data = await getCaseList(); // Case'lar ro'yxatini olish
-        setCases(data); // Case'larni state ga o'rnatish
+        const data = await getCaseList();
+        setCases(data);
       } catch (error) {
         console.error("Case ro'yxatini olishda xatolik:", error);
       } finally {
@@ -44,9 +60,18 @@ export const Intro = ({ onProductTypeChange, chatId }) => {
     try {
       setSelectedCaseId(caseId); // Tanlangan case ID'sini saqlash
       setIsCaseOpened(true); // Case ochilganini belgilaymiz
-      const data = await firstOpenCase(caseId);
-      setCaseList(data);
-      console.log("Case ma'lumotlari:", data);
+
+      let data;
+      console.log(userData, 'user-data');
+
+      // case_info ni tekshiramiz (foydalanuvchining case_info bo'sh yoki yo'qligini aniqlash)
+      if (!userData.case_info || Object.keys(userData.case_info).length === 0) {
+        data = await firstOpenCase(caseId); // Agar bo'sh bo'lsa first_open so'rovi yuboriladi
+        console.log('Birnchi marta case ochildi:', data);
+      } else {
+        data = await openCase(caseId); // Agar mavjud bo'lsa open so'rovi yuboriladi
+        console.log('Case avval ochilgan:', data);
+      }
 
       // Foydalanuvchi yutganmi yoki yo'qmi tekshiramiz
       if (data.win_item) {
@@ -55,21 +80,32 @@ export const Intro = ({ onProductTypeChange, chatId }) => {
         setIsWinner(false); // Foydalanuvchi yutmagan
       }
 
-      // Case ochilgandan so'ng foydalanuvchi ma'lumotlarini yangilash
+      // Case ochilgandan so'ng, POST so'rovi orqali yangilangan ma'lumotlarni serverga yuboramiz
       const caseInfoForUser = {
-        id: caseId,
-        content: data.content,
+        balance: userData.balance, // Foydalanuvchi balansini dinamik olish
+        chat_id: userData.chat_id, // chatId ni dinamik olish
+        id: caseId, // Case ID
+        username: userData.username, // Foydalanuvchi nomi
+        case_info: {
+          case_id: caseId, // Case ID
+          number_raffle: data.number_raffle, // Raffle soni
+          win_item: data.win_item, // Yutgan yutmaganligi
+        },
       };
 
-      await updateUserInfo(chatId, caseInfoForUser); // Foydalanuvchini yangilash
-      console.log("Foydalanuvchi ma'lumotlari yangilandi.");
+      if (chatId !== null && chatId !== undefined) {
+        console.log("Yuborilayotgan ma'lumotlar:", caseInfoForUser);
+
+        await updateUserInfo(chatId, caseInfoForUser);
+        console.log("Foydalanuvchi ma'lumotlari yangilandi.");
+      }
     } catch (error) {
       console.error('Case ni ochishda xatolik:', error);
     }
   };
 
   if (isLoading) {
-    return <div>Kontent yuklanmoqda...</div>; // Yuklanish xabarini chiqaramiz
+    return <div>Kontent yuklanmoqda...</div>;
   }
 
   return (

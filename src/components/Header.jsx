@@ -14,6 +14,7 @@ export const Header = () => {
         const userData = await getUserData(0);
         setUsername(userData.username);
         setBalance(userData.balance);
+        console.log(userData);
 
         const historyData = await getHistoryData();
         setHistoryCount(historyData.length);
