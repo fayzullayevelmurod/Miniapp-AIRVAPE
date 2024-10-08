@@ -27,6 +27,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    margin-bottom: 80px;
+    padding: 0 16px;
     &-text {
       font-size: 16px;
       font-weight: 400;
@@ -68,7 +70,6 @@
   }
 }
 .intro {
-  margin-top: 80px;
   .status-text {
     font-family: 'Inter', sans-serif;
     font-size: 18px;

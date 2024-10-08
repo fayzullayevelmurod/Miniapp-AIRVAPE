@@ -14,8 +14,6 @@ export const Header = () => {
         const userData = await getUserData(0);
         setUsername(userData.username);
         setBalance(userData.balance);
-        console.log(userData);
-
         const historyData = await getHistoryData();
         setHistoryCount(historyData.length);
       } catch (error) {
@@ -32,9 +30,8 @@ export const Header = () => {
         <h1 className='header-head__title'>AIRVAPE</h1>
         <span className='header-head__info'>мини-приложение</span>
       </div>
-      <div className='header-user__box'>
+      {/* <div className='header-user__box'>
         <span className='header-user__box-text'>SPIN #{historyCount}</span>{' '}
-        {/* History soni */}
         <div className='user-box'>
           <img
             className='user-img'
@@ -44,11 +41,9 @@ export const Header = () => {
             height={44}
           />
           <span className='user-name header-user__box-text'>@{username}</span>{' '}
-          {/* Username */}
         </div>
         <span className='header-user__box-text'>${balance}</span>{' '}
-        {/* Balance */}
-      </div>
+      </div> */}
     </header>
   );
 };
