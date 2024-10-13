@@ -217,6 +217,14 @@ export const Intro = ({ onProductTypeChange }) => {
         // Case ro'yxatini olish
         const caseData = await getCaseList();
         setCases(caseData);
+        // LocalStorage'dan case holatini olish
+        const savedCaseInfo = localStorage.getItem('selectedCase');
+        if (savedCaseInfo) {
+          const { isWinner, selectedCaseId } = JSON.parse(savedCaseInfo);
+          setIsWinner(isWinner);
+          setSelectedCaseId(selectedCaseId);
+          setIsCaseOpened(true);
+        }
       } catch (error) {
         console.error("Ma'lumotlarni yuklashda xatolik:", error);
       } finally {
@@ -272,6 +280,15 @@ export const Intro = ({ onProductTypeChange }) => {
       } else {
         setIsWinner(false);
       }
+
+       // LocalStorage'ga saqlash
+       localStorage.setItem(
+        'selectedCase',
+        JSON.stringify({
+          selectedCaseId: caseId,
+          isWinner: data.win_item ? true : false,
+        })
+      );
 
       // Foydalanuvchi ma'lumotlarini yangilash
       const caseInfoForUser = {
