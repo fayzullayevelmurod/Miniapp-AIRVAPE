@@ -3,13 +3,13 @@ import { getCaseContent } from '../api/services/caseService';
 import assets from '../assets';
 
 const defaultImages = {
-  type1: assets.productImg1, // 1-tur mahsulot uchun default rasm
-  type2: assets.productImg2, // 2-tur mahsulot uchun default rasm
-  type3: assets.productImg3, // 3-tur mahsulot uchun default rasm
-  default: assets.productImg1, // Umumiy defolt rasm (agar boshqa turga to'g'ri kelmasa)
+  type1: assets.productImg1,
+  type2: assets.productImg2,
+  type3: assets.productImg3,
+  default: assets.productImg1,
 };
 
-export const Products = memo(({ productType, caseId = 1 }) => {
+export const Products = memo(({ caseId = 1 }) => {
   const [content, setContent] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -55,7 +55,6 @@ export const Products = memo(({ productType, caseId = 1 }) => {
       <div className='cards'>
         {content.map((item, idx) => (
           <div className={`card`} key={idx}>
-            {/* Har bir mahsulot uchun to'g'ri rasm ko'rsatiladi */}
             <img src={item.photo} alt={item.key} />
           </div>
         ))}
