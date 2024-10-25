@@ -722,6 +722,7 @@ import {
 import { getUserData } from '../api/services/authService';
 import { getHistoryData } from '../api/services/historyService';
 import assets from '../assets';
+import Roulette from '../components/Rulette';
 
 const defaultImages = {
   type1: assets.productImg1,
@@ -900,6 +901,9 @@ export const Intro = ({ onProductTypeChange }) => {
         </div>
         <span className='header-user__box-text'>${balance}</span>{' '}
       </div>
+
+      <Roulette />
+      <br /><br /><br /><br />
 
       <Swiper
         spaceBetween={24}

@@ -265,3 +265,51 @@
     }
   }
 }
+
+.rulette-block {
+
+  text-align: center;
+
+  button {
+    margin-top: 50px;
+  }
+  
+  .roulette-wrapper{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    width:100%;
+    margin:0 auto;
+    overflow:hidden;
+  }
+  
+  .roulette-wrapper .selector{
+    width:3px;
+    background:grey;
+    left:50%;
+    height:100%;
+    transform:translate(-50%,0%);
+    position:absolute;
+    z-index:2;
+  }
+  
+  .roulette-wrapper .wheel{
+    display:flex;
+  }
+  
+  .roulette-wrapper .wheel .row{
+    display:flex;
+  }
+  
+  .roulette-wrapper .wheel .row .card{
+    width: 156px;
+    height: 156px;
+    background: white;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 8px;
+  }
+  
+}
